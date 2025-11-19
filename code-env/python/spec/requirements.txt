@@ -1,0 +1,5 @@
+python-dateutil>=2.8.2,<3
+requests<3
+flask
+logai
+regex

@@ -1,0 +1,14 @@
+{
+    "id": "log-explainer-plugin",
+    "version": "0.0.1",
+    "meta": {
+        "label": "Log Explainer",
+        "description": "AI-powered assistant for analyzing and debugging Dataiku job failures. Get intelligent explanations of errors, root causes, and actionable fix recommendations using LLM technology.",
+        "author": "ccovin",
+        "icon": "fas fa-file-medical-alt",
+        "recipesCategory": "other",
+        "tags": ["AI", "Debugging", "Log Analysis", "LLM", "Error Detection"],
+        "url": "",
+        "licenseInfo": "Apache Software License"
+    }
+}

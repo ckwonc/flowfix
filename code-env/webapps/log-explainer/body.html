@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Log Assistant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1 class="header-title">Log Explainer</h1>
+        <div class="header-controls">
+            <div class="llm-selector-wrapper">
+                <span class="llm-selector-label">Connection</span>
+                <select id="llm-connection-selector" class="llm-dropdown">
+                    <option value="">Loading...</option>
+                </select>
+            </div>
+            <div class="llm-selector-wrapper">
+                <span class="llm-selector-label">Model</span>
+                <select id="llm-model-selector" class="llm-dropdown">
+                    <option value="">Select connection first</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Left Panel: Log List -->
+        <div class="left-panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Recent Jobs</h2>
+                <select id="filter-selector" class="filter-dropdown">
+                    <option value="failed">Failed Only</option>
+                    <option value="all">All Jobs</option>
+                    <option value="success">Success Only</option>
+                </select>
+            </div>
+
+            <div class="log-list" id="log-list">
+                <!-- Log items will be dynamically inserted here -->
+            </div>
+        </div>
+
+        <!-- Right Panel: Analysis Results -->
+        <div class="right-panel">
+            <div class="analysis-container" id="analysis-container">
+                <!-- Empty State -->
+                <div class="empty-state" id="empty-state">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <p>Select a job and click Analyze to see results here</p>
+                </div>
+
+                <!-- Analysis Results (hidden by default) -->
+                <div class="analysis-results" id="analysis-results" style="display: none;">
+                    <div class="analysis-header">
+                        <div>
+                            <h2 class="analysis-title" id="analysis-job-name">Job Name</h2>
+                            <p class="analysis-subtitle" id="analysis-job-info">Status | Date</p>
+                        </div>
+                        <button class="close-button" id="close-analysis" aria-label="Close">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div class="loading-state" id="loading-state">
+                        <div class="loading-spinner"></div>
+                        <p>Analyzing logs with AI...</p>
+                    </div>
+
+                    <!-- Results Content (shown after loading) -->
+                    <div class="results-content" id="results-content" style="display: none;">
+                        <!-- Error Summary Card -->
+                        <div class="result-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    What Happened
+                                </h3>
+                                <button class="copy-button" data-copy-target="error-summary">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                                    </svg>
+                                    Copy
+                                </button>
+                            </div>
+                            <div class="card-content" id="error-summary">
+                                <!-- Content will be inserted dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Root Cause Card -->
+                        <div class="result-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-search"></i>
+                                    Why It Happened
+                                </h3>
+                                <button class="copy-button" data-copy-target="root-cause">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                                    </svg>
+                                    Copy
+                                </button>
+                            </div>
+                            <div class="card-content" id="root-cause">
+                                <!-- Content will be inserted dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Technical Details Card (Collapsible) -->
+                        <div class="result-card">
+                            <div class="card-header expandable" id="stack-trace-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-code"></i>
+                                    Technical Details
+                                </h3>
+                                <button class="expand-button" id="expand-stack-trace">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                    <span class="expand-text">Show Context</span>
+                                </button>
+                            </div>
+                            <div class="card-content collapsible" id="stack-trace" style="display: none;">
+                                <!-- Content will be inserted dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Suggested Actions Card -->
+                        <div class="result-card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-wrench"></i>
+                                    How To Fix It
+                                </h3>
+                            </div>
+                            <div class="card-content">
+                                <ul class="action-list" id="suggested-actions">
+                                    <!-- Actions will be inserted dynamically -->
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Feedback Section -->
+                        <div class="feedback-section">
+                            <button class="feedback-button helpful" id="feedback-helpful">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3zM7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"></path>
+                                </svg>
+                                Helpful
+                            </button>
+                            <button class="feedback-button not-helpful" id="feedback-not-helpful">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3zm7-13h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17"></path>
+                                </svg>
+                                Not Helpful
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
