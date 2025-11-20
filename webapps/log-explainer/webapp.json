@@ -1,6 +1,6 @@
 {
     "meta": {
-        "label": "Log Explainer [WIP]",
+        "label": "FlowFix [WIP]",
         "description": "Analyze and debug Dataiku job failures using AI. Get intelligent explanations of errors, root causes, and actionable fix recommendations.",
         "icon": "fas fa-file-medical-alt"
     },

@@ -1,14 +1,14 @@
 {
-    "id": "log-explainer-plugin",
+    "id": "flowfix",
     "version": "0.0.1",
     "meta": {
-        "label": "Log Explainer",
-        "description": "AI-powered assistant for analyzing and debugging Dataiku job failures. Get intelligent explanations of errors, root causes, and actionable fix recommendations using LLM technology.",
+        "label": "FlowFix",
+        "description": "AI-powered self-healing for Dataiku flows. Automatically diagnoses failures, generates fixes, and validates success—reducing MTTR from 30 minutes to 2 minutes.",
         "author": "ccovin",
-        "icon": "fas fa-file-medical-alt",
+        "icon": "fas fa-kit-medical",
         "recipesCategory": "other",
-        "tags": ["AI", "Debugging", "Log Analysis", "LLM", "Error Detection"],
-        "url": "",
+        "tags": ["AI", "Self-Healing", "Automation", "LLM", "Pipeline Monitoring", "Error Resolution"],
+        "url": "https://github.com/ckwonc/flowfix",
         "licenseInfo": "Apache Software License"
     }
 }
